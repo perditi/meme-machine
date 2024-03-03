@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Mar  2 20:54:51 2024
-
-@author: timot
-"""
+#Made with the help of ______________________________
+#Edited by Jordan Lau
 
 from PIL import Image
 filename = "cat.jpg"
@@ -28,7 +24,7 @@ test_labels = to_categorical(array([3]), 10)
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
-# CREATE AND TRAIN THE ML MODEL
+# DEFINE THE ML MODEL
 
 #initializes a layered model
 model = Sequential()
@@ -55,14 +51,13 @@ model.add(Dense(10, activation="softmax"))
 
 model.summary()
 
-#PLOT THE DATA
-
-#loss = discrepancy between training labels and test labels
-#accuracy = % correct
+#TRAIN THE MODEL
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
 history = model.fit(training_images, training_labels, batch_size=64, epochs=50, validation_data=(test_images, test_labels))
 
+#PLOT THE DATA
+#accuracy = % correct
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 2, 1)
 plt.plot(history.history["accuracy"], label="accuracy")
@@ -71,6 +66,7 @@ plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
 plt.legend()
 
+#loss = discrepancy between training labels and test labels
 plt.subplot(1, 2, 2)
 plt.plot(history.history["loss"], label="loss")
 plt.plot(history.history["val_loss"], label="val_loss")
