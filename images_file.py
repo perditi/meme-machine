@@ -25,17 +25,12 @@ def get_trainable_sets():
 
             # Resize the image to 150x150 
             img = img.resize((RESOLUTION,RESOLUTION))
-            #print(img)
             
             # Convert the image to a NumPy array
             img_array = np.array(img)
 
-            #print(img_array.shape)
-            #print(img_array)
-
             # Append the current image's nparray to the overall output array
             output_imgset.append(img_array)
-            #print(np.array(output_imgset).shape)
         
         # Labels the image with the month it is from
         if filename.startswith("jan"):

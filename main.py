@@ -1,4 +1,4 @@
-#authored by Meriem Mostefai and Jordan Lau for uOttahack 6
+#Code by Timothy Mao, Meriem Mostefai, Zahra Suleymanova, and Jordan Lau
 
 import os
 
@@ -26,8 +26,13 @@ def predict_using_ml(filename):
     img_array = np.expand_dims(img_array, axis=0)
     img_array = img_array / 255.0
 
-    #now for inference!
+    #now for inference! we time the requests per second of one request sing time()
+    start = time.time()
     predictions = model.predict(img_array)
+    end = time.time()
+    timedelta = str(1/(end-start))
+    requestpersec = tk.Label(text="Requests per second: "+timedelta)
+    requestpersec.pack()
 
     #interpretation
     predicted_class = np.argmax(predictions[0])
