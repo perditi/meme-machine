@@ -5,21 +5,30 @@ Created on Sat Mar  2 20:54:51 2024
 @author: timot
 """
 
+from PIL import Image
+filename = "cat.jpg"
+img = Image.open(filename)
+img.load()
+img = img.resize((32, 32))
+
+from numpy import array
 import matplotlib.pyplot as plt
 from keras.datasets import cifar10 #dataset with color images
 from keras.utils import to_categorical
 
-(training_images, training_labels), (test_images, test_labels) = cifar10.load_data()
+(training_images, training_labels), _ = cifar10.load_data()
 
-#convert image data
+#convert image data, while overriding the test data
 training_images = training_images.astype("float32") / 255
-test_images = test_images.astype("float32") / 255
+test_images = (array([img])).astype("float32") / 255 #test_images.astype("float32") / 255
 
 training_labels = to_categorical(training_labels, 10)
-test_labels = to_categorical(test_labels, 10)
+test_labels = to_categorical(array([3]), 10)
 
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
+
+# CREATE AND TRAIN THE ML MODEL
 
 #initializes a layered model
 model = Sequential()
@@ -46,8 +55,10 @@ model.add(Dense(10, activation="softmax"))
 
 model.summary()
 
+#PLOT THE DATA
+
 #loss = discrepancy between training labels and test labels
-#accuracy = 
+#accuracy = % correct
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
 history = model.fit(training_images, training_labels, batch_size=64, epochs=50, validation_data=(test_images, test_labels))
