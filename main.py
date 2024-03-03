@@ -18,3 +18,4 @@ predictions = model.predict(img_array)
 #interpretation
 predicted_class = np.argmax(predictions[0])
 print("Predicted class:", predicted_class)
+
