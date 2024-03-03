@@ -4,6 +4,9 @@ import os
 
 # Jan is 0, Feb is 1, ... , Dec is 11
 
+# a constant variable so i don't have to keep changing stuff to experiment
+RESOLUTION = 100
+
 def get_trainable_sets():
     # Path to the directory containing the images
     images_folder = "images"
@@ -20,8 +23,8 @@ def get_trainable_sets():
             # Load the image
             img = Image.open(os.path.join(images_folder, filename))
 
-            # Resize the image to 800x800 
-            img = img.resize((800,800))
+            # Resize the image to 150x150 
+            img = img.resize((RESOLUTION,RESOLUTION))
             #print(img)
             
             # Convert the image to a NumPy array
