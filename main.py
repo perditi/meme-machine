@@ -5,24 +5,28 @@ Created on Sat Mar  2 20:54:51 2024
 @author: timot
 """
 
-#import torch
-import numpy as np
 import matplotlib.pyplot as plt
-from keras.datasets import cifar10
+from keras.datasets import cifar10 #dataset with color images
 from keras.utils import to_categorical
 
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+(training_images, training_labels), (test_images, test_labels) = cifar10.load_data()
 
-x_train = x_train.astype("float32") / 255
-x_test = x_test.astype("float32") / 255
+#convert image data
+training_images = training_images.astype("float32") / 255
+test_images = test_images.astype("float32") / 255
 
-y_train = to_categorical(y_train, 10)
-y_test = to_categorical(y_test, 10)
+training_labels = to_categorical(training_labels, 10)
+test_labels = to_categorical(test_labels, 10)
 
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
+#initializes a layered model
 model = Sequential()
+
+# these images are 32x32 px
+
+# add functions Conv2D, MaxPooling2D, Dropout, Flatten and Dense to the dataset
 model.add(Conv2D(32, (3, 3), activation="relu", input_shape=(32, 32, 3)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
@@ -42,9 +46,11 @@ model.add(Dense(10, activation="softmax"))
 
 model.summary()
 
+#loss = discrepancy between training labels and test labels
+#accuracy = 
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-history = model.fit(x_train, y_train, batch_size=64, epochs=50, validation_data=(x_test, y_test))
+history = model.fit(training_images, training_labels, batch_size=64, epochs=50, validation_data=(test_images, test_labels))
 
 plt.figure(figsize=(12, 4))
 plt.subplot(1, 2, 1)
@@ -63,6 +69,6 @@ plt.legend()
 
 plt.show()
 
-score = model.evaluate(x_test, y_test, verbose=0)
+score = model.evaluate(test_images, test_labels, verbose=0)
 print("Test loss:", score[0])
 print("Test accuracy:", score[1])
