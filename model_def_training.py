@@ -1,17 +1,16 @@
 #Made with the help of __Timothy Mao, Meriem Mostefai, Zahra Suleymanova_
 #Edited by Jordan Lau
 
-
 from numpy import array
 import matplotlib.pyplot as plt
 from keras.datasets import cifar10 #dataset with color images
 from keras.utils import to_categorical
 
-(training_images, training_labels), _ = cifar10.load_data()
+(training_images, training_labels), (test_images, test_labels) = cifar10.load_data()
 
 #convert image data, while overriding the test data
 training_images = training_images.astype("float32") / 255
-test_images = test_images.astype("float32") / 255 #test_images.astype("float32") / 255
+test_images = test_images.astype("float32") / 255 
 
 training_labels = to_categorical(training_labels, 10)
 test_labels = to_categorical(test_labels, 10)
