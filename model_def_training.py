@@ -1,11 +1,6 @@
 #Made with the help of __Timothy Mao, Meriem Mostefai, Zahra Suleymanova_
 #Edited by Jordan Lau
 
-from PIL import Image
-filename = "cat.jpg"
-img = Image.open(filename)
-img.load()
-img = img.resize((32, 32))
 
 from numpy import array
 import matplotlib.pyplot as plt
@@ -16,10 +11,10 @@ from keras.utils import to_categorical
 
 #convert image data, while overriding the test data
 training_images = training_images.astype("float32") / 255
-test_images = (array([img])).astype("float32") / 255 #test_images.astype("float32") / 255
+test_images = test_images.astype("float32") / 255 #test_images.astype("float32") / 255
 
 training_labels = to_categorical(training_labels, 10)
-test_labels = to_categorical(array([3]), 10)
+test_labels = to_categorical(test_labels, 10)
 
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
