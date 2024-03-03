@@ -6,6 +6,7 @@ import threading
 import time
 
 import tkinter as tk
+from tkinter.filedialog import askopenfile
 
 import numpy as np
 from keras.preprocessing import image
@@ -29,7 +30,7 @@ def predict_using_ml(filename):
     #interpretation
     predicted_class = np.argmax(predictions[0])
     month = year[predicted_class]
-    result = tk.Label(text="Predicted month: " + month)
+    result = tk.Label(text="Predicted month: " + month + " 2012")
     result.configure(font=("Arial", 24))
     result.pack()
 
@@ -45,35 +46,28 @@ def wait_messages():
         time.sleep(3)
 
 window = tk.Tk()
-window.geometry("400x400")
+window.geometry("800x1000")
 
 title = tk.Label(text="MEME MACHINE")
 title.configure(fg="green", font=("Courier", 60, "bold"))
 title.pack()
 
-greeting = tk.Label(text="Input a meme file name:")
+greeting = tk.Label(text="Select a meme file!\nI'll tell ya what month and year it's from:")
 greeting.configure(font=("Arial", 24))
 greeting.pack()
 
-inp = tk.Spinbox(window)
-inp.configure(font=("Arial", 24))
-inp.pack()
-
 def on_button_click():
-    filename = inp.get()
+    file = askopenfile(mode='r', filetypes=[('Image Files', '*jpeg'),
+                                            ('Image Files', '*jpg'),
+                                            ('Image Files', '*png')])
+    filename = file.name
+    print(filename)
 
-    #check that we have the correct file type
-    if(filename[len(filename)-5:] != ".jpeg" and filename[len(filename)-4:] != ".jpg" and filename[len(filename)-4:] != ".png"):
-        greeting.config(text="Input a .jpg .jpeg or .png:",fg="red")
-    #check that the file exists in current dir
-    elif (filename not in os.listdir()):
-        greeting.config(text="Input a file that is in the current directory:",fg="red")
-    #if all checks pass, try a prediction with the ML model
-    else:
-        threading.Thread(target=wait_messages).start()
-        threading.Thread(target=predict_using_ml, args = (filename,)).start()
+    #try a prediction with the ML model
+    threading.Thread(target=wait_messages).start()
+    threading.Thread(target=predict_using_ml, args = (filename,)).start()
 
-button = tk.Button(window, text="What month was it?", command=on_button_click)
+button = tk.Button(window, text="Try It Out", command=on_button_click)
 button.configure(font=("Arial",24))
 button.pack()
 
