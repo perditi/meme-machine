@@ -1,4 +1,5 @@
 Meme Machine
+
 Created by Jordan Lau, Timothy Mao, Meriem Mostefai, and Zahra Suleymanova
 
 An experimental machine learning model, trained off of a dataset of popular memes from 2012, whose purpose is to infer what month of 2012 a given meme may be from.
