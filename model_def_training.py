@@ -1,7 +1,6 @@
-#Made with the help of __Timothy Mao, Meriem Mostefai, Zahra Suleymanova_
-#Edited by Jordan Lau
+#Made with the help of https://reintech.io/blog/how-to-create-an-image-recognition-system-with-python
+#Code by Timothy Mao, Meriem Mostefai, Zahra Suleymanova, and Jordan Lau
 
-from numpy import array
 import matplotlib.pyplot as plt
 from keras.datasets import cifar10 #dataset with color images
 from keras.utils import to_categorical
