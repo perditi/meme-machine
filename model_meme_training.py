@@ -14,6 +14,8 @@ print(training_images.shape)
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 
+
+
 # DEFINE THE ML MODEL
 
 #initializes a layered model
@@ -21,7 +23,7 @@ model = Sequential()
 
 
 # add functions Conv2D, MaxPooling2D, Dropout, Flatten and Dense to the dataset
-model.add(Conv2D(32, (3, 3), activation="relu", input_shape=(800, 800, 3)))
+model.add(Conv2D(32, (3, 3), activation="relu", input_shape=(images_file.RESOLUTION, images_file.RESOLUTION, 3)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
@@ -46,4 +48,4 @@ model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=
 history = model.fit(training_images, training_labels, epochs=50)
 
 #SAVING THE TRAINED MODEL
-model.save("prototype_meme_model.h5")
+model.save("100px_meme_model.h5")
