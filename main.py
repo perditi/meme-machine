@@ -1,5 +1,7 @@
 #authored by Meriem Mostefai and Jordan Lau for uOttahack 6
 
+import os
+
 import threading
 import time
 
@@ -9,12 +11,14 @@ import numpy as np
 from keras.preprocessing import image
 from keras.models import load_model
 
-def predict_using_ml():
+year = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+def predict_using_ml(filename):
     #loading the existing trained model
     model = load_model('trained_meme_model.h5')
 
     #loading the image
-    img = image.load_img("kitty.jpeg",target_size=(32, 32))
+    img = image.load_img(filename,target_size=(32, 32))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     img_array = img_array / 255.0
@@ -24,7 +28,8 @@ def predict_using_ml():
 
     #interpretation
     predicted_class = np.argmax(predictions[0])
-    result = tk.Label(text="Predicted class: "+ predicted_class.astype(str))
+    month = year[predicted_class]
+    result = tk.Label(text="Predicted month: " + month)
     result.configure(font=("Arial", 24))
     result.pack()
 
@@ -43,7 +48,7 @@ window = tk.Tk()
 window.geometry("400x400")
 
 title = tk.Label(text="MEME MACHINE")
-title.configure(fg="blue", font=("Courier", 60))
+title.configure(fg="green", font=("Courier", 60, "bold"))
 title.pack()
 
 greeting = tk.Label(text="Input a meme file name:")
@@ -57,11 +62,16 @@ inp.pack()
 def on_button_click():
     filename = inp.get()
 
-    if(filename[len(filename)-4:] != ".jpg"):
-        greeting.config(text="Input a jpg file name:",fg="red")
+    #check that we have the correct file type
+    if(filename[len(filename)-5:] != ".jpeg" and filename[len(filename)-4:] != ".jpg" and filename[len(filename)-4:] != ".png"):
+        greeting.config(text="Input a .jpg .jpeg or .png:",fg="red")
+    #check that the file exists in current dir
+    elif (filename not in os.listdir()):
+        greeting.config(text="Input a file that is in the current directory:",fg="red")
+    #if all checks pass, try a prediction with the ML model
     else:
         threading.Thread(target=wait_messages).start()
-        threading.Thread(target=predict_using_ml).start()
+        threading.Thread(target=predict_using_ml, args = (filename,)).start()
 
 button = tk.Button(window, text="What month was it?", command=on_button_click)
 button.configure(font=("Arial",24))
